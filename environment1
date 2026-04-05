@@ -1,0 +1,240 @@
+export default function GlobalWasteWebsiteDraft() {
+  const locations = [
+    {
+      name: "Atacama Desert, Chile",
+      type: "Fast fashion waste",
+      description:
+        "Mountains of discarded clothing reveal how overconsumption is displaced across borders and hidden in distant landscapes.",
+    },
+    {
+      name: "Guiyu, China",
+      type: "Electronic waste",
+      description:
+        "Archival documentation of e-waste recycling exposes toxic labor conditions and the long afterlife of digital technology.",
+    },
+    {
+      name: "Global North / Global South",
+      type: "Waste flow",
+      description:
+        "Consumption and disposal are unevenly distributed, making waste a global environmental justice issue.",
+    },
+  ];
+
+  const mediaFrames = [
+    {
+      title: "Photographs",
+      focus: "Scale, shock, visibility",
+      effect:
+        "Photographs make waste landscapes immediate and emotionally striking, but they can also freeze complex systems into a single dramatic image.",
+    },
+    {
+      title: "News Videos",
+      focus: "Narration, emotion, urgency",
+      effect:
+        "News videos guide viewers toward particular feelings and interpretations through voiceover, editing, and sequencing.",
+    },
+    {
+      title: "Reports & Posters",
+      focus: "Infrastructure, policy, development",
+      effect:
+        "Institutional media often frame waste as a technical or managerial problem, shifting attention toward systems rather than everyday consumer behavior.",
+    },
+    {
+      title: "Interviews",
+      focus: "Public response, memory, interpretation",
+      effect:
+        "Audience interviews reveal how media does not simply inform viewers, but shapes what they feel responsible for and what they believe can change.",
+    },
+  ];
+
+  const interviewQuestions = [
+    "Which media image stayed with you the most, and why?",
+    "Did this media make the issue feel personal or distant?",
+    "Did it suggest that responsibility belongs to individuals or to larger systems?",
+    "After seeing these media examples, did your understanding of sustainability change?",
+  ];
+
+  return (
+    <div className="min-h-screen bg-stone-950 text-stone-100 font-sans">
+      <header className="sticky top-0 z-50 border-b border-stone-800 bg-stone-950/90 backdrop-blur">
+        <nav className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
+          <div>
+            <p className="text-xs uppercase tracking-[0.3em] text-stone-400">Media & Environment Final Project</p>
+            <h1 className="text-lg font-semibold">Seeing Global Waste</h1>
+          </div>
+          <div className="hidden gap-6 text-sm md:flex text-stone-300">
+            <a href="#about" className="hover:text-white">About</a>
+            <a href="#map" className="hover:text-white">Map</a>
+            <a href="#frames" className="hover:text-white">Media Frames</a>
+            <a href="#slow-violence" className="hover:text-white">Slow Violence</a>
+            <a href="#interviews" className="hover:text-white">Interviews</a>
+          </div>
+        </nav>
+      </header>
+
+      <section className="relative overflow-hidden border-b border-stone-800">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(255,255,255,0.08),_transparent_40%),linear-gradient(to_bottom,_rgba(0,0,0,0.35),_rgba(0,0,0,0.85))]" />
+        <div className="relative mx-auto grid min-h-[88vh] max-w-7xl items-end px-6 py-20 md:grid-cols-2 md:gap-10">
+          <div className="pb-8">
+            <p className="mb-4 text-sm uppercase tracking-[0.3em] text-amber-300">Environmental storytelling website</p>
+            <h2 className="max-w-3xl text-5xl font-semibold leading-tight md:text-7xl">
+              What We Throw Away Never Really Disappears.
+            </h2>
+            <p className="mt-6 max-w-2xl text-base leading-7 text-stone-300 md:text-lg">
+              This website examines how photographs, videos, reports, and interviews shape the way people understand global waste,
+              sustainability, and environmental responsibility.
+            </p>
+            <div className="mt-8 flex flex-wrap gap-4">
+              <a
+                href="#about"
+                className="rounded-2xl bg-stone-100 px-5 py-3 text-sm font-medium text-stone-950 transition hover:scale-[1.02]"
+              >
+                Enter the story
+              </a>
+              <a
+                href="#map"
+                className="rounded-2xl border border-stone-700 px-5 py-3 text-sm font-medium text-stone-100 transition hover:border-stone-500"
+              >
+                Explore the map
+              </a>
+            </div>
+          </div>
+
+          <div className="mt-10 md:mt-0">
+            <div className="rounded-[2rem] border border-stone-800 bg-stone-900/70 p-6 shadow-2xl backdrop-blur">
+              <p className="text-xs uppercase tracking-[0.25em] text-stone-400">Project focus</p>
+              <div className="mt-5 space-y-4 text-sm leading-6 text-stone-300">
+                <p>
+                  <span className="font-semibold text-white">Question:</span> How do media representations of global waste landscapes shape public understanding of sustainability?
+                </p>
+                <p>
+                  <span className="font-semibold text-white">Key ideas:</span> slow violence, framing, environmental responsibility, visual culture.
+                </p>
+                <p>
+                  <span className="font-semibold text-white">Audience:</span> young consumers who are physically distant from the waste produced by overconsumption.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="about" className="mx-auto max-w-7xl px-6 py-20">
+        <div className="grid gap-12 md:grid-cols-[1.2fr_0.8fr]">
+          <div>
+            <p className="text-sm uppercase tracking-[0.25em] text-stone-400">Why this matters</p>
+            <h3 className="mt-3 text-3xl font-semibold md:text-4xl">Waste is often represented as distant, but media makes that distance meaningful.</h3>
+            <p className="mt-6 max-w-3xl text-base leading-8 text-stone-300">
+              Most consumers never directly encounter the landscapes where discarded clothing, electronics, and other materials accumulate.
+              Instead, they encounter waste through images, news stories, reports, and social media narratives. This project asks how those
+              forms of representation influence what audiences notice, what they ignore, and who they think should be responsible.
+            </p>
+          </div>
+
+          <div className="rounded-[2rem] border border-stone-800 bg-stone-900 p-6">
+            <p className="text-sm font-medium text-amber-300">Core argument</p>
+            <p className="mt-4 text-sm leading-7 text-stone-300">
+              Media does not simply show waste. It frames waste. It can make environmental harm feel emotional, technical, urgent, distant,
+              personal, or systemic.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section id="map" className="border-y border-stone-800 bg-stone-900/50">
+        <div className="mx-auto max-w-7xl px-6 py-20">
+          <p className="text-sm uppercase tracking-[0.25em] text-stone-400">Interactive world map section</p>
+          <div className="mt-4 grid gap-10 md:grid-cols-[0.9fr_1.1fr]">
+            <div>
+              <h3 className="text-3xl font-semibold md:text-4xl">Global waste is not local to the people who consume the most.</h3>
+              <p className="mt-6 text-base leading-8 text-stone-300">
+                In your final version, this area can become a clickable map. Users can select key locations to compare waste type, media form,
+                and the frame through which each place is presented.
+              </p>
+            </div>
+
+            <div className="rounded-[2rem] border border-stone-800 bg-stone-950 p-5">
+              <div className="grid gap-4">
+                {locations.map((location) => (
+                  <div key={location.name} className="rounded-2xl border border-stone-800 bg-stone-900 p-5 transition hover:border-stone-600">
+                    <p className="text-xs uppercase tracking-[0.25em] text-stone-500">{location.type}</p>
+                    <h4 className="mt-2 text-xl font-semibold">{location.name}</h4>
+                    <p className="mt-3 text-sm leading-7 text-stone-300">{location.description}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="frames" className="mx-auto max-w-7xl px-6 py-20">
+        <p className="text-sm uppercase tracking-[0.25em] text-stone-400">Media comparison</p>
+        <div className="mt-4 flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+          <h3 className="max-w-3xl text-3xl font-semibold md:text-4xl">One issue can feel completely different depending on how it is represented.</h3>
+          <p className="max-w-xl text-sm leading-7 text-stone-400">
+            This section compares how different media forms shape environmental meaning.
+          </p>
+        </div>
+
+        <div className="mt-12 grid gap-6 md:grid-cols-2 xl:grid-cols-4">
+          {mediaFrames.map((item) => (
+            <div key={item.title} className="rounded-[2rem] border border-stone-800 bg-stone-900 p-6 shadow-lg">
+              <h4 className="text-2xl font-semibold">{item.title}</h4>
+              <p className="mt-3 text-sm font-medium text-amber-300">{item.focus}</p>
+              <p className="mt-4 text-sm leading-7 text-stone-300">{item.effect}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section id="slow-violence" className="border-y border-stone-800 bg-gradient-to-b from-stone-950 to-stone-900">
+        <div className="mx-auto max-w-5xl px-6 py-24 text-center">
+          <p className="text-sm uppercase tracking-[0.25em] text-stone-400">Slow violence</p>
+          <h3 className="mt-4 text-4xl font-semibold md:text-5xl">Environmental harm is often too gradual to demand attention.</h3>
+          <div className="mt-12 space-y-6 text-left text-lg leading-9 text-stone-300 md:text-center">
+            <p>Waste accumulates slowly.</p>
+            <p>Toxic exposure becomes ordinary before it becomes visible.</p>
+            <p>By the time the landscape shocks us, the damage has already been unfolding for years.</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="interviews" className="mx-auto max-w-7xl px-6 py-20">
+        <div className="grid gap-12 md:grid-cols-[0.9fr_1.1fr]">
+          <div>
+            <p className="text-sm uppercase tracking-[0.25em] text-stone-400">Interview responses</p>
+            <h3 className="mt-3 text-3xl font-semibold md:text-4xl">How do viewers interpret these media forms?</h3>
+            <p className="mt-6 text-base leading-8 text-stone-300">
+              This section can later include your interview clips, transcripts, or quote cards. It directly connects media representation to public understanding.
+            </p>
+          </div>
+
+          <div className="grid gap-4">
+            {interviewQuestions.map((question) => (
+              <div key={question} className="rounded-2xl border border-stone-800 bg-stone-900 p-5">
+                <p className="text-sm leading-7 text-stone-200">{question}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="border-t border-stone-800 bg-stone-900/60">
+        <div className="mx-auto max-w-5xl px-6 py-24 text-center">
+          <p className="text-sm uppercase tracking-[0.25em] text-stone-400">Final reflection</p>
+          <h3 className="mt-4 text-4xl font-semibold md:text-5xl">What kinds of media make us care — and what kinds allow us to look away?</h3>
+          <p className="mx-auto mt-6 max-w-3xl text-base leading-8 text-stone-300">
+            Global waste landscapes are not just environmental facts. They are also media objects. How we see them shapes how we define nature,
+            responsibility, and the possibility of change.
+          </p>
+          <div className="mt-10 flex justify-center">
+            <a href="#top" className="rounded-2xl border border-stone-700 px-5 py-3 text-sm font-medium text-stone-100 hover:border-stone-500">
+              Back to top
+            </a>
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+}
