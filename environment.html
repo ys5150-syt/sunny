@@ -1,0 +1,944 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Landscapes of Overconsumption | Interactive Project</title>
+    <style>
+        /* Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        :root {
+            --base: #f8f7f4; /* Off-white base */
+            --dark: #2d2d2d; /* Charcoal text */
+            --muted: #8a8a8a; /* Muted gray */
+            --accent: #5a7d7c; /* Muted earthy teal */
+            --highlight: #c44536; /* Subtle red for emphasis */
+            --space: 2rem;
+            --shadow: 0 4px 20px rgba(0,0,0,0.05);
+        }
+
+        body {
+            background-color: var(--base);
+            color: var(--dark);
+            line-height: 1.8;
+            font-size: 1rem;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background-color: rgba(255,255,255,0.95);
+            padding: 1rem var(--space);
+            display: flex;
+            justify-content: center;
+            gap: 2.5rem;
+            box-shadow: var(--shadow);
+            z-index: 1000;
+        }
+
+        nav a {
+            color: var(--dark);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: var(--accent);
+        }
+
+        /* Section Common Styles */
+        section {
+            min-height: 100vh;
+            padding: 8rem var(--space) 4rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            color: var(--dark);
+            line-height: 1.2;
+        }
+
+        .section-subtitle {
+            font-size: 1.2rem;
+            color: var(--muted);
+            margin-bottom: 3rem;
+            max-width: 800px;
+        }
+
+        /* 1. Hero Section (Landing) */
+        #hero {
+            min-height: 100vh;
+            padding: 0;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .hero-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://images.unsplash.com/photo-1596394516093-501ba68a0ba6?auto=format&w=1600&q=80');
+            background-size: cover;
+            background-position: center;
+            filter: brightness(0.4);
+            z-index: 1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            color: white;
+            padding: 0 var(--space);
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            line-height: 1.1;
+        }
+
+        .hero-subtitle {
+            font-size: 1.4rem;
+            max-width: 800px;
+            margin: 0 auto 3rem;
+            opacity: 0.9;
+        }
+
+        .scroll-cue {
+            position: absolute;
+            bottom: 3rem;
+            left: 50%;
+            transform: translateX(-50%);
+            color: white;
+            font-size: 1rem;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {transform: translateY(0) translateX(-50%);}
+            40% {transform: translateY(-10px) translateX(-50%);}
+            60% {transform: translateY(-5px) translateX(-50%);}
+        }
+
+        /* 2. Why This Matters */
+        #why {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .why-text {
+            max-width: 600px;
+        }
+
+        .why-image {
+            width: 100%;
+            height: 400px;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+
+        .why-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+
+        .why-image:hover img {
+            transform: scale(1.05);
+        }
+
+        .stat {
+            background-color: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+            margin-top: 2rem;
+            font-weight: 600;
+            color: var(--accent);
+        }
+
+        /* 3. Interactive World Map */
+        #map {
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            padding: 2rem;
+            margin-top: 2rem;
+        }
+
+        .map-container {
+            width: 100%;
+            height: 500px;
+            position: relative;
+            background-image: url('https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&w=1400&q=80');
+            background-size: cover;
+            background-position: center;
+            border-radius: 8px;
+        }
+
+        .map-point {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: var(--highlight);
+            border-radius: 50%;
+            cursor: pointer;
+            transition: transform 0.3s;
+            border: 3px solid white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+
+        .map-point:hover {
+            transform: scale(1.3);
+        }
+
+        .map-point.chile {
+            top: 40%;
+            left: 25%;
+        }
+
+        .map-point.guiyu {
+            top: 35%;
+            left: 70%;
+        }
+
+        .map-tooltip {
+            position: absolute;
+            background-color: white;
+            padding: 1rem;
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+            width: 250px;
+            display: none;
+            z-index: 10;
+        }
+
+        .map-tooltip h4 {
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+            color: var(--accent);
+        }
+
+        .map-tooltip p {
+            font-size: 0.9rem;
+            color: var(--muted);
+            margin-bottom: 0.8rem;
+        }
+
+        .map-tooltip .tooltip-btn {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background-color: var(--accent);
+            color: white;
+            border-radius: 4px;
+            text-decoration: none;
+            font-size: 0.85rem;
+        }
+
+        .map-point:hover .map-tooltip {
+            display: block;
+        }
+
+        /* 4. Media Frames Comparison (One Place, Many Frames) */
+        #media-frames {
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            padding: 3rem;
+        }
+
+        .frames-tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 1rem;
+        }
+
+        .frame-tab {
+            padding: 0.8rem 1.5rem;
+            background-color: var(--base);
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .frame-tab.active {
+            background-color: var(--accent);
+            color: white;
+        }
+
+        .frame-content {
+            display: none;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .frame-content.active {
+            display: grid;
+        }
+
+        .frame-image {
+            width: 100%;
+            height: 300px;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .frame-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .frame-analysis h4 {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            color: var(--accent);
+        }
+
+        .frame-analysis .question {
+            font-weight: 600;
+            margin-top: 1rem;
+        }
+
+        /* 5. Slow Violence Section */
+        #slow-violence {
+            position: relative;
+            overflow: hidden;
+            padding: 10rem var(--space);
+        }
+
+        .slow-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://images.unsplash.com/photo-1625712649627-89d042547902?auto=format&w=1600&q=80');
+            background-size: cover;
+            background-position: center;
+            filter: brightness(0.2) blur(2px);
+            z-index: 1;
+        }
+
+        .slow-content {
+            position: relative;
+            z-index: 2;
+            color: white;
+            max-width: 800px;
+        }
+
+        .slow-text {
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+            opacity: 0.9;
+            transition: opacity 0.5s;
+        }
+
+        .slow-timeline {
+            background-color: rgba(255,255,255,0.1);
+            padding: 2rem;
+            border-radius: 8px;
+            backdrop-filter: blur(5px);
+        }
+
+        .timeline-item {
+            margin-bottom: 1.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .timeline-item:last-child {
+            border-bottom: none;
+        }
+
+        /* 6. Split-Screen Framing Comparison */
+        #framing-split {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+        }
+
+        .split-card {
+            background-color: white;
+            padding: 2.5rem;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            height: 100%;
+        }
+
+        .split-card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            color: var(--accent);
+        }
+
+        .split-card .split-image {
+            width: 100%;
+            height: 250px;
+            border-radius: 8px;
+            margin: 1.5rem 0;
+            overflow: hidden;
+        }
+
+        .split-card .split-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .split-card .attribute {
+            margin-bottom: 1rem;
+            font-size: 0.95rem;
+        }
+
+        .split-card .attribute span {
+            font-weight: 600;
+            color: var(--accent);
+        }
+
+        /* 7. Interview Responses */
+        #interviews {
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            padding: 3rem;
+        }
+
+        .interview-questions {
+            margin-bottom: 2rem;
+        }
+
+        .interview-btn {
+            padding: 0.8rem 1.5rem;
+            margin-right: 1rem;
+            margin-bottom: 1rem;
+            background-color: var(--base);
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .interview-btn.active {
+            background-color: var(--accent);
+            color: white;
+        }
+
+        .interview-responses {
+            display: none;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .interview-responses.active {
+            display: flex;
+        }
+
+        .response-card {
+            flex: 1 1 300px;
+            background-color: var(--base);
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+        }
+
+        .response-card p {
+            font-style: italic;
+            margin-bottom: 1rem;
+            color: var(--dark);
+        }
+
+        .response-card .respondent {
+            font-size: 0.9rem;
+            color: var(--muted);
+        }
+
+        /* 8. Reflection & CTA */
+        #reflection {
+            text-align: center;
+            padding: 10rem var(--space);
+        }
+
+        .reflection-questions {
+            max-width: 800px;
+            margin: 0 auto 3rem;
+        }
+
+        .reflection-question {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            font-weight: 500;
+            color: var(--accent);
+        }
+
+        .cta {
+            background-color: var(--accent);
+            color: white;
+            padding: 1.2rem 2.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-block;
+            transition: background-color 0.3s;
+        }
+
+        .cta:hover {
+            background-color: #4a6b6a;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 3rem var(--space);
+            text-align: center;
+        }
+
+        footer p {
+            opacity: 0.8;
+            margin-bottom: 1rem;
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 1024px) {
+            #why, .frame-content, #framing-split {
+                grid-template-columns: 1fr;
+            }
+
+            .why-image {
+                height: 300px;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .hero-title {
+                font-size: 2.8rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            nav {
+                gap: 1.5rem;
+                padding: 1rem;
+            }
+
+            nav a {
+                font-size: 0.85rem;
+            }
+
+            section {
+                padding: 6rem 1rem 3rem;
+            }
+
+            .hero-title {
+                font-size: 2.2rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1.2rem;
+            }
+
+            .frames-tabs {
+                flex-wrap: wrap;
+            }
+
+            .frame-tab {
+                padding: 0.6rem 1rem;
+                font-size: 0.85rem;
+            }
+
+            .map-container {
+                height: 400px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <a href="#hero">Home</a>
+        <a href="#map">Map</a>
+        <a href="#media-frames">Media Frames</a>
+        <a href="#interviews">Interviews</a>
+        <a href="#reflection">Reflection</a>
+    </nav>
+
+    <!-- 1. Hero Section -->
+    <section id="hero">
+        <div class="hero-bg"></div>
+        <div class="hero-content">
+            <h1 class="hero-title">Landscapes of Overconsumption</h1>
+            <p class="hero-subtitle">How media turns distant waste landscapes into environmental meaning.</p>
+            <div class="scroll-cue">Scroll to begin ↓</div>
+        </div>
+    </section>
+
+    <!-- 2. Why This Matters -->
+    <section id="why">
+        <div class="why-text">
+            <h2 class="section-title">Why This Matters</h2>
+            <p class="section-subtitle">Waste is not just a local problem—it’s a global system of inequality. The products we consume daily end up in distant landscapes, burdening communities far from the source of overconsumption.</p>
+            <p>Fast fashion, e-waste, and disposable goods generate millions of tons of waste annually. Developed nations often export this waste to the Global South, where marginalized communities face the health and environmental consequences.</p>
+            <p>This is not an individual failure—it’s a structural issue, hidden by distance and media narratives that shape how we see (or ignore) the cost of our consumption.</p>
+            <div class="stat">
+                80% of global e-waste ends up in developing countries, where it’s processed without proper safety measures.
+            </div>
+        </div>
+        <div class="why-image">
+            <img src="https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?auto=format&w=800&q=80" alt="Waste pickers in a landfill">
+        </div>
+    </section>
+
+    <!-- 3. Interactive World Map -->
+    <section id="map-section">
+        <h2 class="section-title">Global Waste Landscapes</h2>
+        <p class="section-subtitle">Click on a location to explore how waste is produced, exported, and represented in media.</p>
+        <div id="map">
+            <div class="map-container">
+                <!-- Chile (Fast Fashion Waste) -->
+                <div class="map-point chile">
+                    <div class="map-tooltip">
+                        <h4>Atacama Desert, Chile</h4>
+                        <p>Home to massive piles of fast fashion waste—discarded clothing from around the world, left to decompose in one of the driest places on Earth.</p>
+                        <a href="#media-frames" class="tooltip-btn">See Media Frames</a>
+                    </div>
+                </div>
+                <!-- Guiyu, China (E-Waste) -->
+                <div class="map-point guiyu">
+                    <div class="map-tooltip">
+                        <h4>Guiyu, China</h4>
+                        <p>Known as the "e-waste capital of the world," Guiyu processes millions of tons of electronic waste annually, exposing residents to toxic chemicals.</p>
+                        <a href="#media-frames" class="tooltip-btn">See Media Frames</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. Media Frames Comparison (One Place, Many Frames) -->
+    <section id="media-frames">
+        <h2 class="section-title">One Place, Many Media Frames</h2>
+        <p class="section-subtitle">The same waste landscape can be represented in drastically different ways—each frame shapes how we assign responsibility and understand the problem.</p>
+        
+        <div class="frames-tabs">
+            <button class="frame-tab active" data-frame="photo">Photograph</button>
+            <button class="frame-tab" data-frame="news">News Video</button>
+            <button class="frame-tab" data-frame="report">Institutional Report</button>
+            <button class="frame-tab" data-frame="interview">Interview Quote</button>
+        </div>
+
+        <!-- Photo Frame -->
+        <div class="frame-content active" id="photo">
+            <div class="frame-image">
+                <img src="https://images.unsplash.com/photo-1596394516093-501ba68a0ba6?auto=format&w=800&q=80" alt="Landfill in Atacama Desert">
+            </div>
+            <div class="frame-analysis">
+                <h4>Photograph: The Shock of Scale</h4>
+                <p>This photograph of the Atacama Desert landfill emphasizes the sheer scale of fast fashion waste. It uses wide framing to show the vastness of the problem, creating a sense of awe and shock.</p>
+                <p class="question">What does it show?</p>
+                <p>The physical volume of waste and its contrast with the desolate landscape.</p>
+                <p class="question">What does it hide?</p>
+                <p>The human cost—waste pickers, local communities, and the global supply chain that brought the waste here.</p>
+                <p class="question">What responsibility does it suggest?</p>
+                <p>It evokes general guilt but does not specify who is to blame (consumers, corporations, governments).</p>
+            </div>
+        </div>
+
+        <!-- News Video Frame -->
+        <div class="frame-content" id="news">
+            <div class="frame-image">
+                <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&w=800&q=80" alt="News reporter at landfill">
+            </div>
+            <div class="frame-analysis">
+                <h4>News Video: Narrated Crisis</h4>
+                <p>A mainstream news segment about the Atacama landfill uses narration, interviews with local officials, and dramatic music to frame the issue as a "growing crisis."</p>
+                <p class="question">What does it show?</p>
+                <p>Local "failure" to manage waste, with soundbites from officials about "overwhelming amounts" of imported trash.</p>
+                <p class="question">What does it hide?</p>
+                <p>The role of Western fast fashion brands and consumers in producing the waste.</p>
+                <p class="question">What responsibility does it suggest?</p>
+                <p>Shifts blame to local governments and "inefficient" waste management systems.</p>
+            </div>
+        </div>
+
+        <!-- Institutional Report Frame -->
+        <div class="frame-content" id="report">
+            <div class="frame-image">
+                <img src="https://images.unsplash.com/photo-1551269901-5c5e14c25df7?auto=format&w=800&q=80" alt="Institutional report cover">
+            </div>
+            <div class="frame-analysis">
+                <h4>Institutional Report: Infrastructure & Policy</h4>
+                <p>A World Bank report on global waste frames the Atacama landfill as a "development challenge"—focused on infrastructure, policy, and economic solutions.</p>
+                <p class="question">What does it show?</p>
+                <p>Data, graphs, and policy recommendations for "sustainable waste management."</p>
+                <p class="question">What does it hide?</p>
+                <p>The emotional and human impact of waste on local communities.</p>
+                <p class="question">What responsibility does it suggest?</p>
+                <p>Frames waste as a technical problem to be solved by governments and international organizations.</p>
+            </div>
+        </div>
+
+        <!-- Interview Frame -->
+        <div class="frame-content" id="interview">
+            <div class="frame-image">
+                <img src="https://images.unsplash.com/photo-1566492031773-4f4e44671857?auto=format&w=800&q=80" alt="Local resident being interviewed">
+            </div>
+            <div class="frame-analysis">
+                <h4>Interview Quote: Local Perspective</h4>
+                <p>An interview with a waste picker in the Atacama landfill offers a counter-narrative to mainstream media.</p>
+                <p class="question">What does it show?</p>
+                <p>The daily reality of living with waste—health risks, economic struggle, and frustration with global inequality.</p>
+                <p class="question">What does it hide?</p>
+                <p>Nothing—it centers the voice of those most affected, which is often erased in other frames.</p>
+                <p class="question">What responsibility does it suggest?</p>
+                <p>Demands accountability from the global systems (brands, consumers, governments) that produce the waste.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. Slow Violence Section -->
+    <section id="slow-violence">
+        <div class="slow-bg"></div>
+        <div class="slow-content">
+            <h2 class="section-title">Slow Violence</h2>
+            <p class="section-subtitle">Waste does not arrive all at once. Its harm is slow, invisible, and cumulative—shaping communities over decades.</p>
+            
+            <div class="slow-text">
+                <p>Pollution seeps into soil and water. Toxins accumulate in bodies. Land becomes uninhabitable. This is slow violence—environmental harm that is not dramatic or immediate, but deadly over time.</p>
+            </div>
+
+            <div class="slow-timeline">
+                <div class="timeline-item">
+                    <h4>Year 1: Waste Arrives</h4>
+                    <p>Imported waste begins to pile up. Local communities are told it will be "temporarily stored" while infrastructure is built.</p>
+                </div>
+                <div class="timeline-item">
+                    <h4>Year 5: Pollution Spreads</h4>
+                    <p>Chemicals from e-waste and plastic leach into groundwater. Residents report increased respiratory illnesses and skin conditions.</p>
+                </div>
+                <div class="timeline-item">
+                    <h4>Year 10: Land is Contaminated</h4>
+                    <p>Farmland becomes unusable. Local economies collapse as traditional livelihoods (farming, fishing) are destroyed.</p>
+                </div>
+                <div class="timeline-item">
+                    <h4>Year 20: Generational Harm</h4>
+                    <p>Children born in the area suffer from chronic health issues. The land is permanently damaged—no amount of cleanup can reverse the toxicity.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 6. Split-Screen Framing Comparison -->
+    <section id="framing-split">
+        <div class="split-card">
+            <h3>Emotional / Personal Frame</h3>
+            <p class="section-subtitle">Focuses on individual stories, empathy, and personal responsibility.</p>
+            <div class="split-image">
+                <img src="https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?auto=format&w=800&q=80" alt="Waste picker holding a child">
+            </div>
+            <div class="attribute">
+                <span>Tone:</span> Compassionate, emotional, personal.
+            </div>
+            <div class="attribute">
+                <span>Visual Style:</span> Close-ups, human faces, intimate moments.
+            </div>
+            <div class="attribute">
+                <span>Centered:</span> Individual victims and their stories.
+            </div>
+            <div class="attribute">
+                <span>Responsibility:</span> Individual consumers (e.g., "Shop less, recycle more").
+            </div>
+            <div class="attribute">
+                <span>Audience Reaction:</span> Guilt, empathy, desire to "do something."
+            </div>
+        </div>
+
+        <div class="split-card">
+            <h3>Technical / Structural Frame</h3>
+            <p class="section-subtitle">Focuses on systems, policies, and global inequality.</p>
+            <div class="split-image">
+                <img src="https://images.unsplash.com/photo-1551269901-5c5e14c25df7?auto=format&w=800&q=80" alt="Global waste trade map">
+            </div>
+            <div class="attribute">
+                <span>Tone:</span> Analytical, objective, critical.
+            </div>
+            <div class="attribute">
+                <span>Visual Style:</span> Data, maps, graphs, wide shots of systems.
+            </div>
+            <div class="attribute">
+                <span>Centered:</span> Corporations, governments, and global supply chains.
+            </div>
+            <div class="attribute">
+                <span>Responsibility:</span> Structural change (e.g., policy reform, corporate accountability).
+            </div>
+            <div class="attribute">
+                <span>Audience Reaction:</span> Awareness of systemic issues, desire for policy change.
+            </div>
+        </div>
+    </section>
+
+    <!-- 7. Interview Responses -->
+    <section id="interviews">
+        <h2 class="section-title">Interview Responses</h2>
+        <p class="section-subtitle">How do people interpret media representations of global waste? Below are responses from interviews about media’s role in shaping environmental awareness.</p>
+        
+        <div class="interview-questions">
+            <button class="interview-btn active" data-question="image">Which image stayed with you most?</button>
+            <button class="interview-btn" data-question="responsibility">Did this media make you feel responsible?</button>
+            <button class="interview-btn" data-question="system">Did it feel like an individual or global system problem?</button>
+        </div>
+
+        <!-- Image Question Responses -->
+        <div class="interview-responses active" id="image">
+            <div class="response-card">
+                <p>"The photo of the waste picker holding her child—you can see the exhaustion in her face. It made the problem real, not just a statistic."</p>
+                <div class="respondent">— Undergraduate student, 21</div>
+            </div>
+            <div class="response-card">
+                <p>"The wide shot of the Atacama landfill—how it stretches as far as the eye can see. It made me realize how much we throw away without thinking."</p>
+                <div class="respondent">— Professional, 35</div>
+            </div>
+            <div class="response-card">
+                <p>"The news video of the e-waste dump in Guiyu—seeing the kids playing near toxic piles. It made me angry that this is happening somewhere in the world."</p>
+                <div class="respondent">— Community organizer, 42</div>
+            </div>
+        </div>
+
+        <!-- Responsibility Question Responses -->
+        <div class="interview-responses" id="responsibility">
+            <div class="response-card">
+                <p>"Yes, at first—I felt guilty for buying fast fashion. But then I realized it’s not just me; it’s the brands that make clothes designed to be thrown away."</p>
+                <div class="respondent">— Undergraduate student, 21</div>
+            </div>
+            <div class="response-card">
+                <p>"No, the media made it feel like a problem for ‘other people’—local governments or communities. It didn’t connect to my daily choices."</p>
+                <div class="respondent">— Professional, 35</div>
+            </div>
+            <div class="response-card">
+                <p>"It made me feel responsible as a global citizen—not just for my own waste, but for demanding change from the systems that allow this."</p>
+                <div class="respondent">— Community organizer, 42</div>
+            </div>
+        </div>
+
+        <!-- System Question Responses -->
+        <div class="interview-responses" id="system">
+            <div class="response-card">
+                <p>"At first, it felt individual—like I should recycle more. But after seeing the interview with the waste picker, I realized it’s a global system of inequality."</p>
+                <div class="respondent">— Undergraduate student, 21</div>
+            </div>
+            <div class="response-card">
+                <p>"It felt like a local problem—like the communities just need better waste management. I didn’t think about the global trade that brings the waste there."</p>
+                <div class="respondent">— Professional, 35</div>
+            </div>
+            <div class="response-card">
+                <p>"Absolutely a system problem. The media’s focus on individual responsibility distracts from the corporations and governments that profit from waste."</p>
+                <div class="respondent">— Community organizer, 42</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 8. Reflection & CTA -->
+    <section id="reflection">
+        <h2 class="section-title">Reflection</h2>
+        <div class="reflection-questions">
+            <p class="reflection-question">What do we choose not to see?</p>
+            <p class="reflection-question">Why are waste landscapes treated as distant?</p>
+            <p class="reflection-question">What kinds of media make us care?</p>
+            <p class="reflection-question">What responsibility do we have as viewers?</p>
+        </div>
+        <a href="#why" class="cta">Rethink Consumption. Rethink Responsibility.</a>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>Landscapes of Overconsumption | Final Project</p>
+        <p>Media Representations of Global Waste Landfills</p>
+        <p>Designed as an Interactive Documentary & Digital Exhibition</p>
+    </footer>
+
+    <!-- Interactive JavaScript -->
+    <script>
+        // Media Frames Tabs
+        const frameTabs = document.querySelectorAll('.frame-tab');
+        const frameContents = document.querySelectorAll('.frame-content');
+
+        frameTabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                // Remove active class from all tabs and contents
+                frameTabs.forEach(t => t.classList.remove('active'));
+                frameContents.forEach(c => c.classList.remove('active'));
+                // Add active class to clicked tab and corresponding content
+                tab.classList.add('active');
+                document.getElementById(tab.dataset.frame).classList.add('active');
+            });
+        });
+
+        // Interview Response Tabs
+        const interviewBtns = document.querySelectorAll('.interview-btn');
+        const interviewResponses = document.querySelectorAll('.interview-responses');
+
+        interviewBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Remove active class from all buttons and responses
+                interviewBtns.forEach(b => b.classList.remove('active'));
+                interviewResponses.forEach(r => r.classList.remove('active'));
+                // Add active class to clicked button and corresponding responses
+                btn.classList.add('active');
+                document.getElementById(btn.dataset.question).classList.add('active');
+            });
+        });
+
+        // Slow Violence Text Animation (Fade in as user scrolls)
+        const slowTexts = document.querySelectorAll('.slow-text');
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '0.9';
+                }
+            });
+        }, { threshold: 0.5 });
+
+        slowTexts.forEach(text => {
+            text.style.opacity = '0';
+            observer.observe(text);
+        });
+    </script>
+</body>
+</html>
